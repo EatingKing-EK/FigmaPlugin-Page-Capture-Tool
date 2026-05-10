@@ -32,7 +32,7 @@ PAGE_CAPTURE_MAX_QUEUED_JOBS=20
 PAGE_CAPTURE_ALLOW_PRIVATE_TARGETS=false
 ```
 
-如果你部署在 Railway，上线时应优先使用 Railway 注入的 `PORT` 变量，不要再额外把 `PAGE_CAPTURE_PORT` 固定成 `3845`。否则服务可能不会监听到 Railway 健康检查使用的端口。
+如果你部署在 Railway，服务会直接监听 Railway 注入的 `PORT`。当前项目已经不再使用 `PAGE_CAPTURE_PORT`，这样可以避免端口配置混淆。
 
 `PAGE_CAPTURE_PUBLIC_BASE_URL` 必须是用户浏览器能够访问到的 HTTPS 地址，因为插件会用它读取 `/artifacts/...` 图片。
 

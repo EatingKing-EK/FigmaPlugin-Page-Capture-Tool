@@ -21,10 +21,7 @@ function readListEnv(name, fallback = []) {
 }
 
 export const SERVICE_HOST = process.env.PAGE_CAPTURE_HOST || '0.0.0.0'
-export const SERVICE_PORT = readNumberEnv(
-  'PORT',
-  readNumberEnv('PAGE_CAPTURE_PORT', 3845),
-)
+export const SERVICE_PORT = readNumberEnv('PORT', 3845)
 const RAILWAY_PUBLIC_BASE_URL = process.env.RAILWAY_PUBLIC_DOMAIN
   ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
   : ''
