@@ -148,7 +148,7 @@ const cleanupTimer = setInterval(() => {
 }, CLEANUP_INTERVAL_MS)
 
 server.listen(SERVICE_PORT, SERVICE_HOST, () => {
-  console.log(`竞品页面捕捉器服务已启动：http://${SERVICE_HOST}:${SERVICE_PORT}`)
+  console.log(`竞品页面捕捉器抓取服务已启动：http://${SERVICE_HOST}:${SERVICE_PORT}`)
   console.log(`公开访问基准地址：${PUBLIC_BASE_URL}`)
 })
 

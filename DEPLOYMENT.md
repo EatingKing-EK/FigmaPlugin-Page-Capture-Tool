@@ -25,13 +25,14 @@
 
 ```bash
 PAGE_CAPTURE_HOST=0.0.0.0
-PAGE_CAPTURE_PORT=3845
-PAGE_CAPTURE_PUBLIC_BASE_URL=https://capture-api.example.com
+PAGE_CAPTURE_PUBLIC_BASE_URL=https://figmaplugin-page-capture-tool-production.up.railway.app
 PAGE_CAPTURE_ALLOWED_ORIGINS=*
 PAGE_CAPTURE_MAX_RUNNING_JOBS=2
 PAGE_CAPTURE_MAX_QUEUED_JOBS=20
 PAGE_CAPTURE_ALLOW_PRIVATE_TARGETS=false
 ```
+
+如果你部署在 Railway，上线时应优先使用 Railway 注入的 `PORT` 变量，不要再额外把 `PAGE_CAPTURE_PORT` 固定成 `3845`。否则服务可能不会监听到 Railway 健康检查使用的端口。
 
 `PAGE_CAPTURE_PUBLIC_BASE_URL` 必须是用户浏览器能够访问到的 HTTPS 地址，因为插件会用它读取 `/artifacts/...` 图片。
 
@@ -66,7 +67,11 @@ docker run --rm -p 3845:3845 --env-file .env page-capture-service
 
    ```js
    const CONFIG = Object.assign(
-     { serviceBaseUrl: 'https://capture-api.example.com', apiKey: '' },
+     {
+       serviceBaseUrl:
+         'https://figmaplugin-page-capture-tool-production.up.railway.app',
+       apiKey: '',
+     },
      window.PAGE_CAPTURE_CONFIG || {},
    )
    ```
@@ -75,7 +80,9 @@ docker run --rm -p 3845:3845 --env-file .env page-capture-service
 
    ```json
    "networkAccess": {
-     "allowedDomains": ["https://capture-api.example.com"],
+     "allowedDomains": [
+       "https://figmaplugin-page-capture-tool-production.up.railway.app"
+     ],
      "reasoning": "用于校验用户输入的网页 URL、创建截图任务并读取生成的 PNG 截图片段。",
      "devAllowedDomains": ["http://localhost:3845"]
    }

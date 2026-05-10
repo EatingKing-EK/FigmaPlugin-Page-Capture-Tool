@@ -26,7 +26,7 @@
     <div class="app">
       <section class="card hero">
         <h1>&#31454;&#21697;&#39029;&#38754;&#25429;&#25417;&#22120;</h1>
-        <p>&#36755;&#20837;&#32593;&#39029;&#38142;&#25509;&#21518;&#33258;&#21160;&#26657;&#39564;&#65292;&#24182;&#36890;&#36807;&#26412;&#22320; Playwright &#25235;&#21462;&#26381;&#21153;&#20998;&#26512;&#20132;&#20114;&#28857;&#19982;&#9875;&#38754;&#29366;&#24577;&#12290;</p>
+        <p>&#36755;&#20837;&#32593;&#39029;&#38142;&#25509;&#21518;&#33258;&#21160;&#26657;&#39564;&#65292;&#24182;&#36890;&#36807;&#20113;&#31471; Playwright &#25235;&#21462;&#26381;&#21153;&#20998;&#26512;&#20132;&#20114;&#28857;&#19982;&#9875;&#38754;&#29366;&#24577;&#12290;</p>
       </section>
       <section class="card">
         <label class="label" for="url-input">&#30446;&#26631;&#39029;&#38754; URL</label>
@@ -47,17 +47,17 @@
         </div>
         <div id="results-grid" class="grid"><div class="empty">&#26657;&#39564;&#36890;&#36807;&#21518;&#28857;&#20987;&#8220;&#33719;&#21462;&#25130;&#22270;&#8221;&#65292;&#8fd9;&#91cc;&#4f1a;&#9648;&#5217;&#9875;&#38754;&#622a;&#56fe;&#19982;&#4ea4;&#4e92;&#72b6;&#6001;&#12290;</div></div>
       </section>
-      <section class="card muted">&#40664;&#35748;&#36830;&#25509;&#26412;&#22320;&#26381;&#21153; <code>http://localhost:3845</code></section>
+      <section class="card muted">&#20844;&#24320;&#29256;&#40664;&#35748;&#36830;&#25509; <code>https://figmaplugin-page-capture-tool-production.up.railway.app</code></section>
     </div>
     <script>
       ;(() => {
         const T = {
           enter: '\u8bf7\u8f93\u5165\u5f85\u6293\u53d6\u7684\u76ee\u6807\u9875\u9762\u94fe\u63a5\u3002',
-          ready: '\u672c\u5730\u6293\u53d6\u670d\u52a1\u5df2\u5c31\u7eea\uff0c\u8bf7\u8f93\u5165\u76ee\u6807\u7f51\u9875\u94fe\u63a5\u3002',
-          noService: '\u65e0\u6cd5\u8fde\u63a5\u672c\u5730\u6293\u53d6\u670d\u52a1\uff0c\u8bf7\u5148\u6267\u884c npm run service\u3002',
-          badResp: '\u672c\u5730\u6293\u53d6\u670d\u52a1\u8fd4\u56de\u4e86\u5f02\u5e38\u54cd\u5e94\u3002',
+          ready: '\u6293\u53d6\u670d\u52a1\u5df2\u5c31\u7eea\uff0c\u8bf7\u8f93\u5165\u76ee\u6807\u7f51\u9875\u94fe\u63a5\u3002',
+          noService: '\u65e0\u6cd5\u8fde\u63a5\u6293\u53d6\u670d\u52a1\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5\u3002\u5982\u95ee\u9898\u6301\u7eed\uff0c\u8bf7\u8054\u7cfb\u63d2\u4ef6\u7ef4\u62a4\u8005\u3002',
+          badResp: '\u6293\u53d6\u670d\u52a1\u8fd4\u56de\u4e86\u5f02\u5e38\u54cd\u5e94\u3002',
           checking: '\u6b63\u5728\u6821\u9a8c\u94fe\u63a5\u53ef\u7528\u6027\u2026',
-          validateFail: '\u94fe\u63a5\u6821\u9a8c\u5931\u8d25\uff0c\u8bf7\u786e\u8ba4\u672c\u5730\u6293\u53d6\u670d\u52a1\u53ef\u7528\u3002',
+          validateFail: '\u94fe\u63a5\u6821\u9a8c\u5931\u8d25\uff0c\u8bf7\u786e\u8ba4\u6293\u53d6\u670d\u52a1\u53ef\u7528\u3002',
           starting: '\u6b63\u5728\u542f\u52a8\u6293\u53d6\u4efb\u52a1\u2026',
           startFail: '\u542f\u52a8\u6293\u53d6\u4efb\u52a1\u5931\u8d25\u3002',
           readFail: '\u8bfb\u53d6\u4efb\u52a1\u8fdb\u5ea6\u5931\u8d25\u3002',
@@ -83,7 +83,7 @@
           placeholder: '\u5f53\u524d\u4ea4\u4e92\u6ca1\u6709\u53ef\u5bfc\u5165\u622a\u56fe\uff0c\u53ef\u67e5\u770b\u6458\u8981\u4e86\u89e3\u539f\u56e0\u3002',
           kinds: { landing:'\u843d\u5730\u9875', navigation:'\u8df3\u8f6c\u9875', popup:'\u65b0\u7a97\u53e3', 'state-change':'\u540c\u9875\u72b6\u6001', 'no-change':'\u65e0\u660e\u663e\u53d8\u5316', error:'\u6355\u6349\u5931\u8d25' }
         }
-        const CONFIG = Object.assign({ serviceBaseUrl:'http://localhost:3845', apiKey:'' }, window.PAGE_CAPTURE_CONFIG || {})
+        const CONFIG = Object.assign({ serviceBaseUrl:'https://figmaplugin-page-capture-tool-production.up.railway.app', apiKey:'' }, window.PAGE_CAPTURE_CONFIG || {})
         const state = { serviceBaseUrl:CONFIG.serviceBaseUrl.replace(/\/$/, ''), apiKey:CONFIG.apiKey, url:'', validation:{status:'idle', message:T.enter, normalizedUrl:''}, capture:{status:'idle', jobId:'', message:'', progress:{current:0,total:0}}, results:[], selectedIds:new Set(), validationTimerId:null, pollingTimerId:null, isImporting:false }
         const el = { url:document.getElementById('url-input'), status:document.getElementById('status-row'), fetch:document.getElementById('fetch-button'), stop:document.getElementById('stop-button'), import:document.getElementById('import-button'), cancel:document.getElementById('cancel-button'), grid:document.getElementById('results-grid'), meta:document.getElementById('results-meta'), ps:document.getElementById('progress-shell'), pc:document.getElementById('progress-copy'), pv:document.getElementById('progress-value') }
         bind(); render(); ping(); resize()

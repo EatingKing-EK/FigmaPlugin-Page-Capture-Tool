@@ -46,7 +46,7 @@ export class CaptureService {
   async health() {
     return {
       ok: true,
-      message: '本地抓取服务运行中。',
+      message: '抓取服务运行中。',
       browserExecutable: resolveBrowserExecutable() || 'playwright-managed',
       limits: {
         maxRunningJobs: MAX_RUNNING_JOBS,

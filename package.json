@@ -1,7 +1,7 @@
 {
   "name": "page-capture-tool",
   "version": "1.0.0",
-  "description": "竞品页面捕捉器 Figma 插件与本地 Playwright 抓取服务",
+  "description": "竞品页面捕捉器 Figma 插件与云端 Playwright 抓取服务",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",

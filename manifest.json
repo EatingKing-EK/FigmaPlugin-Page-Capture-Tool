@@ -9,7 +9,10 @@
   "documentAccess": "dynamic-page",
   "editorType": ["figma"],
   "networkAccess": {
-    "allowedDomains": ["none"],
+    "allowedDomains": [
+      "https://figmaplugin-page-capture-tool-production.up.railway.app"
+    ],
+    "reasoning": "用于校验用户输入的网页链接、创建抓取任务，并读取服务端生成的截图文件以导入 Figma。",
     "devAllowedDomains": ["http://localhost:3845"]
   }
 }

@@ -22,11 +22,16 @@ function readListEnv(name, fallback = []) {
 
 export const SERVICE_HOST = process.env.PAGE_CAPTURE_HOST || '0.0.0.0'
 export const SERVICE_PORT = readNumberEnv(
-  'PAGE_CAPTURE_PORT',
-  readNumberEnv('PORT', 3845),
+  'PORT',
+  readNumberEnv('PAGE_CAPTURE_PORT', 3845),
 )
+const RAILWAY_PUBLIC_BASE_URL = process.env.RAILWAY_PUBLIC_DOMAIN
+  ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+  : ''
 export const PUBLIC_BASE_URL =
-  process.env.PAGE_CAPTURE_PUBLIC_BASE_URL || `http://localhost:${SERVICE_PORT}`
+  process.env.PAGE_CAPTURE_PUBLIC_BASE_URL ||
+  RAILWAY_PUBLIC_BASE_URL ||
+  `http://localhost:${SERVICE_PORT}`
 
 export const API_KEY = process.env.PAGE_CAPTURE_API_KEY || ''
 export const CORS_ALLOWED_ORIGINS = readListEnv('PAGE_CAPTURE_ALLOWED_ORIGINS', [
