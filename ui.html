@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>&#31454;&#21697;&#39029;&#38754;&#25429;&#25417;&#22120;</title>
+    <style>
+      :root{--bg:#eef2f8;--panel:#fff;--line:#d4dcea;--text:#132238;--muted:#5f6f86;--primary:#0c6cf2;--danger:#d14343;--success:#0f8a43;--warning:#a66c00}
+      *{box-sizing:border-box} body{margin:0;font:14px "Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:linear-gradient(180deg,#f7f9fd 0%,var(--bg) 100%)}
+      .app{display:grid;gap:14px;padding:16px;min-height:100vh}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;padding:16px}
+      h1,h2,h3,p{margin:0}.hero p,.muted,.summary,.url,.meta{color:var(--muted)} .hero p,.summary,.url{line-height:1.6}
+      .label{display:block;margin-bottom:8px;font-size:12px;font-weight:700;color:var(--muted)} .input{width:100%;min-height:44px;padding:12px 14px;border:1px solid var(--line);border-radius:14px}
+      .status{min-height:22px;margin-top:8px;font-size:12px}.status[data-tone="success"]{color:var(--success)}.status[data-tone="error"]{color:var(--danger)}.status[data-tone="warning"]{color:var(--warning)}
+      .actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.btn{min-height:42px;border-radius:14px;border:1px solid transparent;background:#fff;cursor:pointer}.btn:disabled{opacity:.45;cursor:not-allowed}
+      .primary{background:linear-gradient(135deg,var(--primary),#3387ff);color:#fff}.secondary{border-color:var(--line)}.danger{background:rgba(209,67,67,.12);border-color:rgba(209,67,67,.18);color:var(--danger)}
+      .head{display:flex;justify-content:space-between;align-items:center;gap:12px}.progress{display:none;gap:8px}.progress.show{display:grid}.track{height:8px;border-radius:999px;background:rgba(12,108,242,.12);overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#0c6cf2,#58a0ff)}
+      .grid{display:grid;gap:12px;align-content:start;overflow:auto;min-height:220px}.empty,.item .placeholder{display:grid;place-items:center;text-align:center;border:1px dashed var(--line);border-radius:16px;color:var(--muted);background:#fafcff}
+      .empty{min-height:160px;padding:24px 16px}.item{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:12px;border:1px solid var(--line);border-radius:16px;background:#fff}.item.selected{border-color:rgba(12,108,242,.5)}
+      .body{display:grid;gap:10px}.head2{display:flex;justify-content:space-between;gap:10px;align-items:center}.pill{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 10px;border-radius:999px;background:rgba(12,108,242,.08);color:#0457c6;font-size:11px;font-weight:700}
+      .pill[data-tone="warning"]{background:rgba(166,108,0,.12);color:var(--warning)}.pill[data-tone="error"]{background:rgba(209,67,67,.12);color:var(--danger)}
+      .preview{width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid rgba(17,24,39,.08);border-radius:14px;background:#f8faff}.placeholder{min-height:120px;padding:16px}
+      @media (max-width:430px){.actions{grid-template-columns:repeat(2,1fr)}}
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <section class="card hero">
+        <h1>&#31454;&#21697;&#39029;&#38754;&#25429;&#25417;&#22120;</h1>
+        <p>&#36755;&#20837;&#32593;&#39029;&#38142;&#25509;&#21518;&#33258;&#21160;&#26657;&#39564;&#65292;&#24182;&#36890;&#36807;&#26412;&#22320; Playwright &#25235;&#21462;&#26381;&#21153;&#20998;&#26512;&#20132;&#20114;&#28857;&#19982;&#9875;&#38754;&#29366;&#24577;&#12290;</p>
+      </section>
+      <section class="card">
+        <label class="label" for="url-input">&#30446;&#26631;&#39029;&#38754; URL</label>
+        <input id="url-input" class="input" type="url" autocomplete="off" spellcheck="false" placeholder="https://www.example.com" />
+        <div id="status-row" class="status" data-tone="default">&#35831;&#36755;&#20837;&#24453;&#25429;&#21462;&#30340;&#30446;&#26631;&#39029;&#38754;&#38142;&#25509;&#12290;</div>
+        <div class="actions">
+          <button id="fetch-button" class="btn primary" hidden>&#33719;&#21462;&#25130;&#22270;</button>
+          <button id="stop-button" class="btn danger" disabled>&#20572;&#27490;</button>
+          <button id="import-button" class="btn secondary" disabled>&#23548;&#20837;</button>
+          <button id="cancel-button" class="btn secondary">&#21462;&#28040;</button>
+        </div>
+      </section>
+      <section class="card">
+        <div class="head"><h2>&#25130;&#22270;&#32467;&#26524;</h2><div id="results-meta" class="meta">&#23578;&#26410;&#24320;&#22987;&#25235;&#21462;</div></div>
+        <div id="progress-shell" class="progress">
+          <div id="progress-copy" class="muted"></div>
+          <div class="track"><div id="progress-value" class="bar"></div></div>
+        </div>
+        <div id="results-grid" class="grid"><div class="empty">&#26657;&#39564;&#36890;&#36807;&#21518;&#28857;&#20987;&#8220;&#33719;&#21462;&#25130;&#22270;&#8221;&#65292;&#8fd9;&#91cc;&#4f1a;&#9648;&#5217;&#9875;&#38754;&#622a;&#56fe;&#19982;&#4ea4;&#4e92;&#72b6;&#6001;&#12290;</div></div>
+      </section>
+      <section class="card muted">&#40664;&#35748;&#36830;&#25509;&#26412;&#22320;&#26381;&#21153; <code>http://localhost:3845</code></section>
+    </div>
+    <script>
+      ;(() => {
+        const T = {
+          enter: '\u8bf7\u8f93\u5165\u5f85\u6293\u53d6\u7684\u76ee\u6807\u9875\u9762\u94fe\u63a5\u3002',
+          ready: '\u672c\u5730\u6293\u53d6\u670d\u52a1\u5df2\u5c31\u7eea\uff0c\u8bf7\u8f93\u5165\u76ee\u6807\u7f51\u9875\u94fe\u63a5\u3002',
+          noService: '\u65e0\u6cd5\u8fde\u63a5\u672c\u5730\u6293\u53d6\u670d\u52a1\uff0c\u8bf7\u5148\u6267\u884c npm run service\u3002',
+          badResp: '\u672c\u5730\u6293\u53d6\u670d\u52a1\u8fd4\u56de\u4e86\u5f02\u5e38\u54cd\u5e94\u3002',
+          checking: '\u6b63\u5728\u6821\u9a8c\u94fe\u63a5\u53ef\u7528\u6027\u2026',
+          validateFail: '\u94fe\u63a5\u6821\u9a8c\u5931\u8d25\uff0c\u8bf7\u786e\u8ba4\u672c\u5730\u6293\u53d6\u670d\u52a1\u53ef\u7528\u3002',
+          starting: '\u6b63\u5728\u542f\u52a8\u6293\u53d6\u4efb\u52a1\u2026',
+          startFail: '\u542f\u52a8\u6293\u53d6\u4efb\u52a1\u5931\u8d25\u3002',
+          readFail: '\u8bfb\u53d6\u4efb\u52a1\u8fdb\u5ea6\u5931\u8d25\u3002',
+          stopping: '\u6b63\u5728\u8bf7\u6c42\u505c\u6b62\u4efb\u52a1\u2026',
+          stopFail: '\u505c\u6b62\u4efb\u52a1\u5931\u8d25\u3002',
+          importing: '\u5bfc\u5165\u4e2d...',
+          importingLabel: '\u5bfc\u5165',
+          readImgFail: '\u8bfb\u53d6\u622a\u56fe\u6587\u4ef6\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5\u3002',
+          importFail: '\u5bfc\u5165\u524d\u8bfb\u53d6\u622a\u56fe\u5931\u8d25\u3002',
+          progress: '\u6b63\u5728\u5904\u7406\u4e2d\uff0c\u8bf7\u7a0d\u5019\u2026',
+          doneHint: '\u6293\u53d6\u5b8c\u6210\u540e\u4f1a\u5728\u8fd9\u91cc\u663e\u793a\u8fdb\u5ea6\u3002',
+          done: '\u5df2\u5b8c\u6210\uff0c\u5171\u5f97\u5230 ',
+          resultSuffix: ' \u6761\u7ed3\u679c',
+          failed: '\u4efb\u52a1\u5931\u8d25',
+          stopped: '\u4efb\u52a1\u5df2\u505c\u6b62',
+          running: '\u8fdb\u884c\u4e2d ',
+          init: '\u6b63\u5728\u521d\u59cb\u5316\u4efb\u52a1',
+          fetched: '\u5df2\u83b7\u53d6 ',
+          notStarted: '\u5c1a\u672a\u5f00\u59cb\u6293\u53d6',
+          emptyFail: '\u6293\u53d6\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5\u670d\u52a1\u65e5\u5fd7\u3002',
+          emptyStopped: '\u5f53\u524d\u4efb\u52a1\u5df2\u505c\u6b62\u3002\u53ef\u4ee5\u4fee\u6539\u94fe\u63a5\u540e\u91cd\u65b0\u53d1\u8d77\u6293\u53d6\u3002',
+          emptyIdle: '\u6821\u9a8c\u901a\u8fc7\u540e\u70b9\u51fb\u201c\u83b7\u53d6\u622a\u56fe\u201d\uff0c\u8fd9\u91cc\u4f1a\u9648\u5217\u9875\u9762\u622a\u56fe\u4e0e\u4ea4\u4e92\u72b6\u6001\u3002',
+          placeholder: '\u5f53\u524d\u4ea4\u4e92\u6ca1\u6709\u53ef\u5bfc\u5165\u622a\u56fe\uff0c\u53ef\u67e5\u770b\u6458\u8981\u4e86\u89e3\u539f\u56e0\u3002',
+          kinds: { landing:'\u843d\u5730\u9875', navigation:'\u8df3\u8f6c\u9875', popup:'\u65b0\u7a97\u53e3', 'state-change':'\u540c\u9875\u72b6\u6001', 'no-change':'\u65e0\u660e\u663e\u53d8\u5316', error:'\u6355\u6349\u5931\u8d25' }
+        }
+        const CONFIG = Object.assign({ serviceBaseUrl:'http://localhost:3845', apiKey:'' }, window.PAGE_CAPTURE_CONFIG || {})
+        const state = { serviceBaseUrl:CONFIG.serviceBaseUrl.replace(/\/$/, ''), apiKey:CONFIG.apiKey, url:'', validation:{status:'idle', message:T.enter, normalizedUrl:''}, capture:{status:'idle', jobId:'', message:'', progress:{current:0,total:0}}, results:[], selectedIds:new Set(), validationTimerId:null, pollingTimerId:null, isImporting:false }
+        const el = { url:document.getElementById('url-input'), status:document.getElementById('status-row'), fetch:document.getElementById('fetch-button'), stop:document.getElementById('stop-button'), import:document.getElementById('import-button'), cancel:document.getElementById('cancel-button'), grid:document.getElementById('results-grid'), meta:document.getElementById('results-meta'), ps:document.getElementById('progress-shell'), pc:document.getElementById('progress-copy'), pv:document.getElementById('progress-value') }
+        bind(); render(); ping(); resize()
+        function bind(){ el.url.addEventListener('input', onInput); el.fetch.addEventListener('click', startCapture); el.stop.addEventListener('click', stopCapture); el.import.addEventListener('click', importShots); el.cancel.addEventListener('click', () => { stopPolling(); parent.postMessage({ pluginMessage:{ type:'cancel' } }, '*') }) }
+        async function json(url, options){ const headers = {'Content-Type':'application/json'}; if (state.apiKey) headers['X-Page-Capture-Key'] = state.apiKey; const response = await fetch(url, { headers, ...options }); const ct = response.headers.get('content-type') || ''; const payload = ct.toLowerCase().includes('application/json') ? await response.json() : null; if (!response.ok) throw new Error(payload && (payload.message || payload.error) || T.badResp); return payload }
+        async function ping(){ try { await json(state.serviceBaseUrl + '/api/health', { method:'GET' }); if (state.validation.status === 'idle') state.validation.message = T.ready } catch (error) { state.validation.status = 'failed'; state.validation.message = formatError(error, T.noService) } render() }
+        function onInput(event){ state.url = event.target.value.trim(); if (state.validationTimerId) { clearTimeout(state.validationTimerId); state.validationTimerId = null } resetCapture(); if (!state.url) { state.validation.status = 'idle'; state.validation.normalizedUrl = ''; state.validation.message = T.enter; render(); return } state.validation.status = 'checking'; state.validation.message = T.checking; render(); state.validationTimerId = setTimeout(() => { validate().catch(() => {}) }, 450) }
+        async function validate(){ try { const result = await json(state.serviceBaseUrl + '/api/validate', { method:'POST', body:JSON.stringify({ url:state.url }) }); state.validation.status = result.ok ? 'valid' : 'invalid'; state.validation.normalizedUrl = result.normalizedUrl || ''; state.validation.message = result.message } catch (error) { state.validation.status = 'failed'; state.validation.normalizedUrl = ''; state.validation.message = formatError(error, T.validateFail) } render() }
+        async function startCapture(){ if (state.validation.status !== 'valid') return; state.capture.status = 'running'; state.capture.message = T.starting; state.capture.progress = { current:0, total:0 }; state.results = []; state.selectedIds.clear(); render(); try { const response = await json(state.serviceBaseUrl + '/api/capture', { method:'POST', body:JSON.stringify({ url:state.validation.normalizedUrl || state.url }) }); state.capture.status = response.status; state.capture.jobId = response.id; state.capture.message = response.message; state.capture.progress = response.progress || { current:0, total:0 }; poll(response.id) } catch (error) { state.capture.status = 'failed'; state.capture.message = formatError(error, T.startFail); render() } }
+        function poll(jobId){ stopPolling(); const run = async () => { try { const snapshot = await json(state.serviceBaseUrl + '/api/jobs/' + encodeURIComponent(jobId), { method:'GET' }); state.capture.status = snapshot.status; state.capture.message = snapshot.message; state.capture.progress = snapshot.progress || { current:0, total:0 }; state.results = Array.isArray(snapshot.items) ? snapshot.items : []; prune(); render(); if (finished(snapshot.status)) stopPolling() } catch (error) { state.capture.status = 'failed'; state.capture.message = formatError(error, T.readFail); stopPolling(); render() } }; run().catch(() => {}); state.pollingTimerId = setInterval(() => { run().catch(() => {}) }, 1200) }
+        async function stopCapture(){ if (!state.capture.jobId) return; state.capture.status = 'stopping'; state.capture.message = T.stopping; render(); try { const response = await json(state.serviceBaseUrl + '/api/jobs/' + encodeURIComponent(state.capture.jobId) + '/stop', { method:'POST' }); state.capture.status = response.status; state.capture.message = response.message; state.capture.progress = response.progress || state.capture.progress; state.results = Array.isArray(response.items) ? response.items : state.results } catch (error) { state.capture.status = 'failed'; state.capture.message = formatError(error, T.stopFail) } render() }
+        async function importShots(){ const selected = state.results.filter((item) => item.hasVisual && state.selectedIds.has(item.id)); if (!selected.length) return; state.isImporting = true; render(); try { const payload = []; for (const item of selected) { const segments = []; for (const segment of item.segments) { const response = await fetch(segment.url); if (!response.ok) throw new Error(T.readImgFail); segments.push({ bytes:await response.arrayBuffer(), width:segment.width, height:segment.height, fileName:segment.fileName }) } payload.push({ id:item.id, name:item.name, summary:item.summary, sourceUrl:item.sourceUrl, finalUrl:item.finalUrl, captureKind:item.captureKind, segments }) } parent.postMessage({ pluginMessage:{ type:'import-screenshots', items:payload } }, '*') } catch (error) { state.isImporting = false; state.capture.status = 'failed'; state.capture.message = formatError(error, T.importFail); render() } }
+        function render(){ renderStatus(); renderButtons(); renderProgress(); renderResults() }
+        function renderStatus(){ el.status.textContent = state.validation.message; el.status.dataset.tone = tone(state.validation.status) }
+        function renderButtons(){ const hasSelected = state.results.some((item) => item.hasVisual && state.selectedIds.has(item.id)); const running = state.capture.status === 'running'; const stopping = state.capture.status === 'stopping'; el.fetch.hidden = state.validation.status !== 'valid' || running; el.fetch.disabled = state.validation.status !== 'valid' || running || stopping; el.stop.disabled = !(running || stopping); el.import.disabled = state.isImporting || running || !hasSelected; el.import.textContent = state.isImporting ? T.importing : T.importingLabel }
+        function renderProgress(){ const visible = state.capture.status === 'running' || state.capture.status === 'stopping'; const current = state.capture.progress.current || 0; const total = state.capture.progress.total || 0; const ratio = total === 0 ? 0 : Math.min(100, Math.round(current / total * 100)); el.ps.classList.toggle('show', visible); el.pc.textContent = state.capture.message || (visible ? T.progress : T.doneHint); el.pv.style.width = ratio + '%'; if (state.capture.status === 'completed') { el.meta.textContent = T.done + state.results.length + T.resultSuffix; return } if (state.capture.status === 'failed') { el.meta.textContent = T.failed; return } if (state.capture.status === 'stopped') { el.meta.textContent = T.stopped; return } if (visible) { el.meta.textContent = total > 0 ? T.running + current + '/' + total : T.init; return } el.meta.textContent = state.results.length > 0 ? T.fetched + state.results.length + T.resultSuffix : T.notStarted }
+        function renderResults(){ el.grid.textContent = ''; if (!state.results.length) { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = state.capture.status === 'failed' ? (state.capture.message || T.emptyFail) : state.capture.status === 'stopped' ? T.emptyStopped : T.emptyIdle; el.grid.appendChild(empty); return } for (const item of state.results) el.grid.appendChild(card(item)) }
+        function card(item){ const meta = { label:T.kinds[item.captureKind] || T.kinds.landing, tone:item.captureKind === 'error' ? 'error' : item.captureKind === 'no-change' ? 'warning' : 'default' }; const wrap = document.createElement('label'); wrap.className = 'item' + (state.selectedIds.has(item.id) ? ' selected' : ''); const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.className = 'result-card__checkbox'; checkbox.checked = state.selectedIds.has(item.id); checkbox.disabled = !item.hasVisual; checkbox.addEventListener('change', () => toggle(item.id)); const body = document.createElement('div'); body.className = 'body'; const head = document.createElement('div'); head.className = 'head2'; const title = document.createElement('h3'); title.className = 'result-card__title'; title.textContent = item.name; const pill = document.createElement('span'); pill.className = 'pill'; pill.dataset.tone = meta.tone; pill.textContent = meta.label; head.append(title, pill); body.appendChild(head); if (item.previewUrl) { const img = document.createElement('img'); img.className = 'preview'; img.loading = 'lazy'; img.alt = item.name; img.src = item.previewUrl; body.appendChild(img) } else { const ph = document.createElement('div'); ph.className = 'placeholder'; ph.textContent = T.placeholder; body.appendChild(ph) } const summary = document.createElement('p'); summary.className = 'summary'; summary.textContent = item.summary; const url = document.createElement('p'); url.className = 'url'; url.textContent = item.finalUrl || item.sourceUrl; body.append(summary, url); wrap.append(checkbox, body); return wrap }
+        function toggle(id){ if (state.selectedIds.has(id)) state.selectedIds.delete(id); else state.selectedIds.add(id); render() }
+        function prune(){ const ids = new Set(state.results.filter((item) => item.hasVisual).map((item) => item.id)); for (const id of Array.from(state.selectedIds)) if (!ids.has(id)) state.selectedIds.delete(id) }
+        function resetCapture(){ stopPolling(); state.results = []; state.selectedIds.clear(); state.capture = { status:'idle', jobId:'', message:'', progress:{ current:0, total:0 } } }
+        function stopPolling(){ if (state.pollingTimerId) { clearInterval(state.pollingTimerId); state.pollingTimerId = null } }
+        function resize(){ parent.postMessage({ pluginMessage:{ type:'resize-ui', width:460, height:760 } }, '*') }
+        function finished(status){ return status === 'completed' || status === 'failed' || status === 'stopped' }
+        function tone(status){ if (status === 'valid') return 'success'; if (status === 'invalid' || status === 'failed') return 'error'; if (status === 'checking') return 'warning'; return 'default' }
+        function formatError(error, fallback){
+          const message = error instanceof Error && error.message ? error.message : ''
+          const lowered = message.toLowerCase()
+
+          if (
+            lowered.includes('failed to fetch') ||
+            lowered.includes('networkerror') ||
+            lowered.includes('network request failed') ||
+            lowered.includes('load failed')
+          ) {
+            return T.noService
+          }
+
+          return message || fallback
+        }
+      })()
+    </script>
+  </body>
+</html>

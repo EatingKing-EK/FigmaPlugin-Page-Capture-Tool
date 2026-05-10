@@ -1,0 +1,7 @@
+node_modules
+.capture-artifacts
+*.log
+*.log.*
+dist
+out
+.git
